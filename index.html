@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en" onclick="jump()">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game</title>
+    <script>
+        
+    </script>
+    <style>
+        .container{
+            margin: 0px;
+            padding: 0px;
+            height: 600px;
+            width: 100%;
+            background-image: url("background_image.jpg");
+            background-repeat: no-repeat;
+            /* background-position: 120%,0px; */
+            background-size:cover;
+                
+            
+            
+        }
+
+        #hero{
+            height: 150px;
+            width: 120px;
+            
+            position: relative;
+            top:450px;
+            left:80px;
+            
+        }
+
+        .SuperJump{
+            animation: jumping 500ms;
+        }
+
+        @keyframes jumping {
+            0%{
+                top:450px;
+            }
+            40%{
+                top:250px;
+            }
+            60%{
+                top:250px;
+            }
+            100%{
+                top:450px;
+            }
+        }
+
+
+        #enemy{
+            height: 40px;
+            width: 40px;
+            
+            position: relative;
+            top:350px;
+            left:1500px;
+            
+        }
+
+        .animate_enemy{
+            animation: attack 2s infinite linear;
+        }
+        @keyframes animate_enem {
+            from{
+                top: 300px;
+                left: 100px;
+            }
+            to{
+                top:500px;
+                left: 100px;
+            }
+        }
+        @keyframes attack {
+            from{
+                left:1500px;
+            }
+            to{
+                left: 0px;
+            }
+            
+        }
+
+        #point{
+            border: solid 2px dotted;
+            height: 10px;
+            width: 40px;
+            position: relative;
+            left: 1200px;
+            top:100px;
+            font-size: 0.5cm;
+            font-weight: bolder;
+        }    
+
+        #start_game{
+            height: 1in;
+            width: 3in;
+            top: -100px;
+            font-size: larger ;
+            font-family:'Times New Roman', Times, serif;
+            margin: 1px;
+            padding: 1px;
+            border: aqua;
+            border-style: solid;
+            color: whitesmoke;
+            /* border-width:; */
+            animation: button_anim 8s infinite;
+        }
+
+        @keyframes button_anim {
+            0%{
+                background-color: aqua;
+                color: ghostwhite;
+            }
+            20%{
+                background-color: tomato;
+                color: white;
+            }
+            40%{
+                background-color: rebeccapurple;    
+                color: white;
+            }
+            60%{
+                background-color: royalblue;
+                color: whitesmoke;
+            }
+            80%{
+                background-color:maroon;
+                color: ghostwhite;
+            }
+            100%{
+                background-color: aqua;
+                color:whitesmoke
+            }
+
+            
+            
+        }
+
+        .score{
+            color: black;
+            font-weight: bolder;
+            font-family: 'Courier New', Courier, monospace;
+        }
+      
+
+        #level_animate{
+            width: 1900px;
+            height: 60px;
+            position:absolute;
+            top: 620px;
+            left: 0px;
+            animation: level_animation 500ms infinite linear;
+            
+        }
+        @keyframes level_animation {
+            from{
+                left:0px;
+            }
+            to{
+                left:-134px;
+            }
+            
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        
+        <div id="point">
+            <h1 class="score">
+                Score
+            </h1>
+            <h2 id="newScorer">points</h2>
+        </div>
+        <div id="hero">
+            <img src="melissa-lam-hero-run-new-gif.gif" alt="" style="height: 150px; width: 120px;">
+        </div>
+        <div id="enemy">
+            <img src="dragonGIF.gif" alt="" style="height: 100px; width: 200px;">
+        </div>
+        <hr style="border: solid 2px ; position: relative; top: 410px;">
+        <div class="clouds">
+            <img id="cloud_1" src="cloud.png" alt="">
+            <img id="cloud_2" src="cloud.png" alt="">
+
+        </div>
+        <div id="level_animate">
+            <img src="base_level.PNG" alt="base image" style="width: 1900px; height: 60px;">
+        </div>
+        <center><h1 id="start_game"><button id="start_game" onclick="starting_game()">Click here to Start</button></h1></center>
+    </div>
+
+
+    <script>
+        var audio=new Audio("backgroundMusic.mp3")
+        setTimeout(function(){
+            
+        audio.play();
+        },2000)
+        setInterval(function(){
+            var audio=new Audio("backgroundMusic.mp3")
+            audio.play();
+        },154000)
+        var score=document.getElementById("newScorer");
+        var Hero=document.getElementById("hero");
+        var Enemy=document.getElementById("enemy");
+    
+        var count=0;
+        var scorenew
+        function starting_game()
+        {
+            Enemy.classList.add("animate_enemy")
+            scorenew = setInterval(function(){
+            score.innerHTML=count;
+            count++;
+            if(count==124)
+            {
+                Enemy.style.animationDuration="1.5s"
+            }
+            else if(count==322)
+                {
+                    Enemy.style.animationDuration="1s";
+                }
+
+            
+            
+            },100)
+            audio.play();
+            document.getElementById("start_game").style.display="none";
+        }
+        
+        
+        var heroJumpSound=new Audio("heroJumP.mp3")
+        document.addEventListener("click",function(){
+            jumpHero();
+        })
+        document.addEventListener("keypress",function(event) {
+            if(event.key==" ")
+            {
+                jumpHero();
+            }
+        })
+        function jumpHero()
+        {
+            heroJumpSound.play();
+            Hero.classList.add("SuperJump");
+            setTimeout(function(){
+                Hero.classList.remove("SuperJump");
+            },500)
+            
+        }
+        var heroTop;
+        var newscore;
+        var enemyLeft;
+        var newValue=setInterval(function(){
+            heroTop=parseInt(window.getComputedStyle(Hero).getPropertyValue("top"));
+            enemyLeft=parseInt(window.getComputedStyle(Enemy).getPropertyValue("left"));
+            var flag=0;
+            console.log(heroTop,enemyLeft)
+            if(enemyLeft>70 && enemyLeft<150 && heroTop>=300)
+                {       Enemy.style.left="120px";
+                        Enemy.style.animation="none"
+                        setTimeout(function(){
+                            newscore=count;
+
+                            Hero.style.visibility="hidden"
+                            Enemy.style.left="120px";
+                            Enemy.style.animation="none";
+                            document.getElementById("start_game").innerHTML="Game Over Your Score : "+newscore;
+                            document.getElementById("start_game").style.display="block";
+                            clearInterval(scorenew)
+                            clearInterval(newValue)
+                       },10)
+                }
+        },1);        
+
+    </script>
+
+</body>
+</html>
